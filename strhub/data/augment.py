@@ -15,7 +15,6 @@
 
 from functools import partial
 
-import imgaug.augmenters as iaa
 import numpy as np
 from PIL import ImageFilter, Image
 from timm.data import auto_augment
@@ -49,6 +48,7 @@ def gaussian_blur(img, radius, **__):
 
 
 def motion_blur(img, k, **__):
+    import imgaug.augmenters as iaa
     k = _get_param(k, img, 0.08, 3) | 1  # bin to odd values
     key = 'motion_blur_' + str(k)
     op = _get_op(key, lambda: iaa.MotionBlur(k))
@@ -56,6 +56,7 @@ def motion_blur(img, k, **__):
 
 
 def gaussian_noise(img, scale, **_):
+    import imgaug.augmenters as iaa
     scale = _get_param(scale, img, 0.25) | 1  # bin to odd values
     key = 'gaussian_noise_' + str(scale)
     op = _get_op(key, lambda: iaa.AdditiveGaussianNoise(scale=scale))
@@ -63,6 +64,7 @@ def gaussian_noise(img, scale, **_):
 
 
 def poisson_noise(img, lam, **_):
+    import imgaug.augmenters as iaa
     lam = _get_param(lam, img, 0.2) | 1  # bin to odd values
     key = 'poisson_noise_' + str(lam)
     op = _get_op(key, lambda: iaa.AdditivePoissonNoise(lam))
